@@ -53,13 +53,13 @@ public class SamlServlet extends HttpServlet {
 		Random rdm=new Random();
 		authnRequest.setID(String.valueOf(rdm.nextInt(999999)));
 		authnRequest.setVersion(SAMLVersion.VERSION_20);
-		authnRequest.setDestination("http://localhost:8181/SingleSignOnService");
+		authnRequest.setDestination("http://localhost:8085/SingleSignOnService");
 		authnRequest.setForceAuthn(false);
 		authnRequest.setIsPassive(false);
-		authnRequest.setAssertionConsumerServiceURL("http://localhost:8085/TEST_SAML/SamlAssertionServlet");
+		authnRequest.setAssertionConsumerServiceURL("http://localhost:8080/TEST_SAML/SamlAssertionServlet");
 		authnRequest.setProtocolBinding(SAMLConstants.SAML2_POST_BINDING_URI);
 		Issuer issuerObj = new IssuerBuilder().buildObject();
-		issuerObj.setValue("http://localhost:8085/TEST_SAML/SamlServlet");
+		issuerObj.setValue("http://localhost:8080/TEST_SAML/SamlServlet");
 		authnRequest.setIssuer(issuerObj);
 
 		NameIDPolicy nameIdPolicy = new NameIDPolicyBuilder().buildObject();
@@ -83,14 +83,14 @@ public class SamlServlet extends HttpServlet {
 
 	    PrintWriter out = response.getWriter();
 	    out.println("<h1>Taller SAML - SERVICE PROVIDER</h1>");
-	    out.println("<br><b>AuthRequest:</b>"+String.valueOf(authn));
 	    out.println("<br><b>AuthRequest id:</b>"+authnRequest.getID());
 	    out.println("<br><b>AuthRequest destination:</b>"+authnRequest.getDestination());
 	    out.println("<br><b>AuthRequest issuer:</b>"+authnRequest.getIssuer().getValue());
 	    out.println("<br><br><br>");
-	    out.println("<form action='http://localhost:8181/SingleSignOnService' method='post'>");
+	    out.println("<form action='http://localhost:8085/SingleSignOnService' method='post'>");
 	    out.println("<input type='hidden' name='SAMLRequest' value='"+Base64.encodeBytes(authn)+"' size='100'>");
-	    out.println("<input type='submit'  value='Enviar'>");
+	    out.println("<textarea rows='10' cols='100'>"+new String(authn)+"</textarea>");
+	    out.println("<br><input type='submit'  value='Enviar'>");
 	    out.println("</form'>");
 	    
 	    
